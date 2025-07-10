@@ -1,0 +1,105 @@
+// object coding practice
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class DogMain {
+
+    public static List<Dog> dogList = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) {
+
+
+        while (true) {
+            System.out.println("0. 출력 1. 신규 2. 수정 3. 삭제 4. 종료");
+            int num = sc.nextInt();
+            switch (num) {
+                case 0:
+                    printDog();
+                    break;
+                case 1:
+                    addDog();
+                    break;
+                case 2:
+                    updateDog();
+                    break;
+                case 3:
+                    deleteDog();
+                    break;
+                case 4:
+                    return;
+            }
+        }
+    }
+
+    private static void printDog() {
+        for (int i = 0; i < dogList.size(); i++) {
+            System.out.printf("index : " + i + " : ");
+            System.out.println(dogList.get(i));
+        }
+    }
+
+    private static void addDog() {
+        Dog dog = new Dog();
+        System.out.print("강아지의 이름을 입력하세요 : ");
+        String name = sc.next();
+        System.out.print("강아지의 나이를 입력하세요 :");
+        int age = sc.nextInt();
+        dog.setName(name);
+        dog.setAge(age);
+
+        // 생성 된 강아지를 List에 추가하기
+        dogList.add(dog);
+    }
+
+    private static void updateDog() {
+        printDog();
+        System.out.println("수정할 강아지 이름을 입력하세요");
+        String changeName = sc.next();
+        // 수정할 이름의 강아지 인덱스를 찾아야 함
+        int changeIndex = -1;
+        for (int i = 0; i < dogList.size(); i++) {
+            if (dogList.get(i).getName().equals(changeName)) {
+                changeIndex = i;
+                break;
+            }
+        }
+        if (changeIndex == -1) {
+            System.out.println("수정할 대상이 없습니다");
+            return;
+        } else {
+            System.out.print("수정할 이름을 입력하세요 : ");
+            String newName = sc.next();
+            System.out.print("수정할 나이를 입력하세요 : ");
+            int newage = sc.nextInt();
+            Dog changeDog = new Dog();
+            changeDog.setName(newName);
+            changeDog.setAge(newage);
+            dogList.set(changeIndex, changeDog);
+            printDog();
+        }
+    }
+
+    private static void deleteDog() {
+        printDog();
+        System.out.println("삭제할 강아지 이름을 입력하세요");
+        String deleteName = sc.next();
+        // 삭제할 이름의 강아지 인덱스를 찾아야 함
+        int dogIndex = -1;
+        for (int i = 0; i < dogList.size(); i++) {
+            if (dogList.get(i).getName().equals(deleteName)) {
+                dogIndex = i;
+                break;
+            }
+        }
+        if (dogIndex == -1) {
+            System.out.println("삭제할 대상이 없습니다");
+            return;
+        } else {
+            System.out.println("삭제를 완료했습니다");
+            dogList.remove(dogIndex);
+            printDog();
+        }
+    }
+}
